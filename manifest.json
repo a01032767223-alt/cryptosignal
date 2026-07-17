@@ -2,31 +2,43 @@
     "name": "CryptoSignal - 암호화폐 투자 인텔리전스",
     "short_name": "CryptoSignal",
     "description": "비트코인 & 알트코인 투자 지표 통합 대시보드. AI 기반 신호 해석 및 실시간 알림.",
-    "start_url": "/",
+    "start_url": "./",
     "display": "standalone",
     "background_color": "#0a0a0f",
     "theme_color": "#0f0f1a",
     "orientation": "portrait",
-    "scope": "/",
+    "scope": "./",
     "lang": "ko",
     "icons": [
         {
-            "src": "assets/icon-192.png",
+            "src": "./assets/icon-192.png",
             "sizes": "192x192",
             "type": "image/png",
-            "purpose": "any maskable"
+            "purpose": "any"
         },
         {
-            "src": "assets/icon-512.png",
+            "src": "./assets/icon-512.png",
             "sizes": "512x512",
             "type": "image/png",
-            "purpose": "any maskable"
+            "purpose": "any"
+        },
+        {
+            "src": "./assets/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "./assets/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
         }
     ],
     "categories": ["finance", "productivity"],
     "screenshots": [
         {
-            "src": "assets/screenshot-1.png",
+            "src": "./assets/screenshot-1.png",
             "sizes": "390x844",
             "type": "image/png",
             "form_factor": "narrow"
@@ -37,15 +49,15 @@
             "name": "대시보드",
             "short_name": "홈",
             "description": "오늘의 시장 신호 확인",
-            "url": "/?tab=dashboard",
-            "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }]
+            "url": "./?tab=dashboard",
+            "icons": [{ "src": "./assets/icon-192.png", "sizes": "192x192" }]
         },
         {
             "name": "지표",
             "short_name": "지표",
             "description": "상세 지표 분석",
-            "url": "/?tab=indicators",
-            "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }]
+            "url": "./?tab=indicators",
+            "icons": [{ "src": "./assets/icon-192.png", "sizes": "192x192" }]
         }
     ]
 }

@@ -511,6 +511,7 @@ const Events = {
 const App = {
     refreshTimer: null,
     async init() {
+        if (window._appLoadTimeout) clearTimeout(window._appLoadTimeout);
         this.updateLoading('데이터 소스 연결 중...');
         await this.refreshData();
         this.updateLoading('AI 신호 엔진 초기화 중...');
@@ -577,7 +578,7 @@ const App = {
             const badge = document.getElementById('alert-badge');
             if (badge) { badge.textContent = triggered; badge.classList.remove('hidden'); }
             if (State.settings.notifications && 'Notification' in window && Notification.permission === 'granted') {
-                new Notification('CryptoSignal 알림', { body: `${triggered}개의 알림 조건이 충족되었습니다.`, icon: 'assets/icon-192.png' });
+                new Notification('CryptoSignal 알림', { body: `${triggered}개의 알림 조건이 충족되었습니다.`, icon: './assets/icon-192.png' });
             }
         }
     }
