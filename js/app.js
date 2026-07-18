@@ -267,6 +267,31 @@ const SignalEngine = {
     }
 };
 
+
+// Data Source Status Indicator
+const DataSource = {
+    sources: {
+        fearGreed: { name: 'Fear & Greed', type: 'api', url: 'alternative.me', status: 'live' },
+        prices: { name: 'Coin Prices', type: 'api', url: 'coingecko.com', status: 'live' },
+        global: { name: 'Global Data', type: 'api', url: 'coingecko.com', status: 'live' },
+        onChain: { name: 'On-Chain Metrics', type: 'simulated', url: 'glassnode.com', status: 'simulated' },
+        etf: { name: 'ETF Flows', type: 'simulated', url: 'farside.co.uk', status: 'simulated' }
+    },
+
+    getStatusHTML: function() {
+        var html = '<div class="data-source-bar">';
+        html += '<span class="ds-label">📡 데이터 소스:</span>';
+        var keys = Object.keys(this.sources);
+        for (var i = 0; i < keys.length; i++) {
+            var s = this.sources[keys[i]];
+            var icon = s.status === 'live' ? '🟢' : '⚠️';
+            html += '<span class="ds-item" title="' + (s.status === 'live' ? '실시간 API' : '시뮬레이션 데이터') + '">' + icon + ' ' + s.name + '</span>';
+        }
+        html += '</div>';
+        return html;
+    }
+};
+
 const UI = {
     renderDashboard: function(data) {
         this.renderSignalsGrid(data);
@@ -275,6 +300,8 @@ const UI = {
         this.renderRecentAlerts(data);
         var lu = document.getElementById('last-update');
         if (lu) lu.textContent = '업데이트: ' + new Date().toLocaleTimeString('ko-KR');
+        var dsBar = document.getElementById('data-source-bar');
+        if (dsBar) dsBar.innerHTML = DataSource.getStatusHTML();
     },
 
     renderSignalsGrid: function(data) {

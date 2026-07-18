@@ -1474,3 +1474,32 @@ body {
         padding-bottom: max(80px, calc(80px + env(safe-area-inset-bottom)));
     }
 }
+
+
+/* Data Source Bar */
+.data-source-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    margin-bottom: 1rem;
+    font-size: 0.7rem;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.data-source-bar .ds-label {
+    color: var(--text-secondary);
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.data-source-bar .ds-item {
+    color: var(--text-muted);
+    padding: 0.15rem 0.4rem;
+    background: var(--bg-elevated);
+    border-radius: 4px;
+}

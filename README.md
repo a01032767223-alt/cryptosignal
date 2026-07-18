@@ -9,6 +9,72 @@
 
 ---
 
+
+
+## 📡 실시간 데이터 현황
+
+### ✅ 실시간 API (무료, 키 불필요)
+| 지표 | 소스 | 갱신 주기 |
+|------|------|----------|
+| Fear & Greed Index | Alternative.me | 5분 |
+| 코인 가격 (BTC, ETH 등 10개) | CoinGecko | 1분 |
+| 시가총액/거래량 | CoinGecko | 5분 |
+| BTC Dominance | CoinGecko | 5분 |
+| Altcoin Season Index | CoinGecko 계산 | 5분 |
+
+### ⚠️ 시뮬레이션 데이터 (유료 API 키 필요)
+| 지표 | 실제 소스 | 설명 |
+|------|----------|------|
+| NUPL | Glassnode | 미실현 손익 비율 |
+| MVRV Z-Score | Glassnode | 시장가치/실현가치 |
+| SOPR | Glassnode | 체인상 이동 손익 |
+| Exchange Reserves | Glassnode/CryptoQuant | 거래소 보유량 |
+| Funding Rate | Coinglass | 영구 스왑 비용 |
+| Open Interest | Coinglass | 미결제 약정 |
+| Puell Multiple | Glassnode | 채굴 수익 비율 |
+| Miner Position Index | Glassnode | 채굴자 매도/보유 |
+| SSR | Glassnode | 스테이블코인 공급 비율 |
+
+> 💡 **시뮬레이션 데이터는 실제 시장 사이클을 반영한 추정치입니다.**
+> 실시간 온체인 데이터를 원하시면 아래 API 키를 추가하세요.
+
+---
+
+## 🔑 API 키 추가 방법 (실시간 데이터 확장)
+
+### 1. Glassnode API (온체인 데이터)
+1. https://glassnode.com 에 가입
+2. API 키 발급 (무료 티어: 일일 30 API 호출)
+3. `js/config.js` 파일 생성:
+```javascript
+const API_KEYS = {
+    glassnode: 'YOUR_GLASSNODE_API_KEY'
+};
+```
+
+### 2. CryptoQuant API (온체인 + 파생상품)
+1. https://cryptoquant.com 에 가입
+2. API 키 발급 (무료 티어: 제한적)
+3. `js/config.js`에 추가:
+```javascript
+const API_KEYS = {
+    glassnode: 'YOUR_GLASSNODE_API_KEY',
+    cryptoquant: 'YOUR_CRYPTOQUANT_API_KEY'
+};
+```
+
+### 3. Coinglass API (파생상품 데이터)
+1. https://coinglass.com 에 가입
+2. API 키 발급
+3. `js/config.js`에 추가:
+```javascript
+const API_KEYS = {
+    coinglass: 'YOUR_COINGLASS_API_KEY'
+};
+```
+
+---
+
 ## 🎯 주요 기능
 
 ### 📊 5대 카테고리 30+ 핵심 지표
