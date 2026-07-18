@@ -3,51 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="theme-color" content="#0f0f1a">
+    <meta name="theme-color" content="#0a0a0f">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="description" content="CryptoSignal - 비트코인 & 알트코인 투자 지표 통합 대시보드">
-    <title>CryptoSignal 🎯</title>
+    <meta name="description" content="CryptoSignal - 비트코인 & 알트코인 투자 지표 실시간 대시보드">
+    <title>CryptoSignal 🚀</title>
     <link rel="manifest" href="./manifest.json">
     <link rel="apple-touch-icon" href="./assets/icon-192.png">
     <link rel="icon" type="image/png" href="./assets/icon-192.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/style.css">
-
-    <!-- iOS PWA Fixes -->
-    <meta name="apple-mobile-web-app-title" content="CryptoSignal">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-touch-fullscreen" content="yes">
-    <link rel="apple-touch-startup-image" href="./assets/icon-512.png">
-
-    <!-- Prevent iOS zoom on input focus -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-
 </head>
 <body>
-    <!-- iOS PWA Error Recovery -->
     <noscript>
         <div style="padding: 2rem; text-align: center; color: #fff; background: #0a0a0f; min-height: 100vh;">
             <h1>⚠️ JavaScript 필요</h1>
             <p>CryptoSignal을 사용하려면 브라우저의 JavaScript를 활성화해주세요.</p>
         </div>
     </noscript>
-    <script>
-        // Emergency fallback: if app doesn't load in 10 seconds, show error
-        window._appLoadTimeout = setTimeout(function() {
-            var loading = document.getElementById('loading-screen');
-            var app = document.getElementById('app');
-            if (loading && (!app || app.classList.contains('hidden'))) {
-                var status = document.getElementById('loading-status');
-                if (status) {
-                    status.textContent = '로딩 실패. 페이지를 새로고침해주세요.';
-                    status.style.color = '#ef4444';
-                }
-                var progress = document.querySelector('.loading-progress');
-                if (progress) progress.style.background = '#ef4444';
-            }
-        }, 10000);
-    </script>
+
     <!-- Loading Screen -->
     <div id="loading-screen">
         <div class="loading-content">
@@ -55,14 +29,14 @@
                 <div class="logo-ring"></div>
                 <div class="logo-ring"></div>
                 <div class="logo-ring"></div>
-                <div class="logo-icon">📡</div>
+                <div class="logo-icon">🚀</div>
             </div>
             <h1 class="loading-title">CryptoSignal</h1>
-            <p class="loading-subtitle">암호화폐 투자 인텔리전스 로딩 중...</p>
+            <p class="loading-subtitle">실시간 암호화폐 데이터 연결 중...</p>
             <div class="loading-bar">
                 <div class="loading-progress"></div>
             </div>
-            <p class="loading-status" id="loading-status">데이터 연결 중...</p>
+            <p class="loading-status" id="loading-status">CoinGecko API 연결 중...</p>
         </div>
     </div>
 
@@ -84,37 +58,50 @@
         <!-- Header -->
         <header class="app-header">
             <div class="header-left">
-                <div class="logo-small">📡</div>
-                <span class="app-name">CryptoSignal</span>
+                <div class="logo-small">🚀</div>
+                <div>
+                    <span class="app-name">CryptoSignal</span>
+                    <span class="app-subtitle">알트코인 투자 대시보드</span>
+                </div>
             </div>
             <div class="header-right">
                 <div class="connection-status" id="connection-status">
                     <span class="status-dot online"></span>
                     <span class="status-text">실시간</span>
                 </div>
-                <button class="settings-btn" id="settings-btn">⚙️</button>
+                <div class="last-updated" id="header-last-updated">--:--:--</div>
+                <div class="auto-refresh-toggle" onclick="App.toggleAutoRefresh()">
+                    <span>자동</span>
+                    <div class="toggle-switch" id="autoRefreshToggle"></div>
+                </div>
+                <button class="refresh-btn" id="refreshBtn" onclick="App.refreshData()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="23 4 23 10 17 10"></polyline>
+                        <polyline points="1 20 1 14 7 14"></polyline>
+                        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                    </svg>
+                    새로고침
+                </button>
             </div>
         </header>
 
         <!-- Tab Navigation -->
         <nav class="tab-nav">
-            <button class="tab-btn active" data-tab="dashboard">
-                <span class="tab-icon">🏠</span>
-                <span class="tab-label">홈</span>
+            <button class="tab-btn active" data-tab="overview">
+                <span class="tab-icon">📊</span>
+                <span class="tab-label">시장 개요</span>
+            </button>
+            <button class="tab-btn" data-tab="altseason">
+                <span class="tab-icon">🌙</span>
+                <span class="tab-label">알트시즌</span>
             </button>
             <button class="tab-btn" data-tab="indicators">
-                <span class="tab-icon">📊</span>
-                <span class="tab-label">지표</span>
+                <span class="tab-icon">📈</span>
+                <span class="tab-label">온체인</span>
             </button>
-            <button class="tab-btn" data-tab="signals">
-                <span class="tab-icon">🎯</span>
-                <span class="tab-label">신호</span>
-                <span class="signal-badge" id="signal-badge">3</span>
-            </button>
-            <button class="tab-btn" data-tab="alerts">
-                <span class="tab-icon">🔔</span>
-                <span class="tab-label">알림</span>
-                <span class="alert-badge hidden" id="alert-badge">0</span>
+            <button class="tab-btn" data-tab="heatmap">
+                <span class="tab-icon">🔥</span>
+                <span class="tab-label">히트맵</span>
             </button>
             <button class="tab-btn" data-tab="portfolio">
                 <span class="tab-icon">💼</span>
@@ -124,45 +111,165 @@
 
         <!-- Tab Contents -->
         <main class="tab-content">
-            <!-- DASHBOARD TAB -->
-            <div id="dashboard" class="tab-panel active">
+            <!-- OVERVIEW TAB -->
+            <div id="overview" class="tab-panel active">
                 <div class="dashboard-header">
                     <h2>오늘의 시장 신호</h2>
-                    <p class="last-update" id="last-update">업데이트: 방금</p>
+                    <p class="last-update" id="last-update">업데이트: --</p>
                 </div>
-                <div id="data-source-bar"></div>
 
-                <!-- Market Signals Cards -->
                 <div class="signals-grid" id="signals-grid">
-                    <!-- Dynamically populated -->
+                    <!-- AI Signals dynamically populated -->
                 </div>
 
-                <!-- Key Metrics Summary -->
-                <div class="metrics-section">
-                    <h3>핵심 지표 요약</h3>
-                    <div class="metrics-grid" id="metrics-grid">
-                        <!-- Dynamically populated -->
-                    </div>
-                </div>
-
-                <!-- Market Regime -->
-                <div class="regime-section">
-                    <h3>시장 국면</h3>
-                    <div class="regime-card" id="regime-card">
-                        <div class="regime-icon">🔄</div>
-                        <div class="regime-info">
-                            <span class="regime-name" id="regime-name">분석 중...</span>
-                            <span class="regime-desc" id="regime-desc">데이터를 수집하고 있습니다</span>
+                <div class="grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">비트코인 도미넌스</span>
+                            <span class="trend" id="btcDomTrend">--</span>
                         </div>
-                        <div class="regime-confidence" id="regime-confidence">--%</div>
+                        <div class="card-value" id="btcDominance" style="color: var(--accent-blue)">--%</div>
+                        <div class="card-subtitle" id="btcDomSubtitle">분석 중...</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="btcDomBar" style="width: 0%; background: linear-gradient(90deg, #3b82f6, #60a5fa)"></div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">공포 & 탐욕 지수</span>
+                            <span class="trend" id="fngTrend">--</span>
+                        </div>
+                        <div class="card-value" id="fngValue" style="color: var(--accent-orange)">--</div>
+                        <div class="card-subtitle" id="fngSubtitle">분석 중...</div>
+                        <div class="gauge-container">
+                            <svg viewBox="0 0 200 140" width="100%" height="100%">
+                                <defs>
+                                    <linearGradient id="fngGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stop-color="#ef4444" />
+                                        <stop offset="50%" stop-color="#f97316" />
+                                        <stop offset="100%" stop-color="#22c55e" />
+                                    </linearGradient>
+                                </defs>
+                                <path d="M 20 120 A 80 80 0 0 1 180 120" class="gauge-bg" />
+                                <path id="fngGauge" d="M 20 120 A 80 80 0 0 1 180 120" class="gauge-fill" stroke="url(#fngGradient)" stroke-dasharray="0 251" />
+                                <text x="100" y="105" class="gauge-text" id="fngGaugeText" fill="var(--accent-orange)">--</text>
+                                <text x="100" y="125" class="gauge-label" id="fngGaugeLabel">분석 중</text>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">BTC 가격</span>
+                            <span class="trend" id="btcTrend">--</span>
+                        </div>
+                        <div class="card-value" id="btcPrice" style="color: var(--text-primary)">--</div>
+                        <div class="card-subtitle" id="btcSubtitle">24시간 거래량: --</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="btcPriceBar" style="width: 0%; background: linear-gradient(90deg, #22c55e, #4ade80)"></div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">ETH 가격</span>
+                            <span class="trend" id="ethTrend">--</span>
+                        </div>
+                        <div class="card-value" id="ethPrice" style="color: var(--text-primary)">--</div>
+                        <div class="card-subtitle" id="ethSubtitle">24시간 거래량: --</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="ethPriceBar" style="width: 0%; background: linear-gradient(90deg, #627eea, #8b9ef5)"></div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Recent Alerts -->
-                <div class="recent-alerts-section">
-                    <h3>최근 알림</h3>
-                    <div class="recent-alerts-list" id="recent-alerts-list">
-                        <!-- Dynamically populated -->
+                <div class="alert-section">
+                    <div class="alert-title">🔔 실시간 투자 알림</div>
+                    <div class="alert-list" id="recent-alerts-list">
+                        <!-- Alerts dynamically populated -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- ALT SEASON TAB -->
+            <div id="altseason" class="tab-panel">
+                <div class="dashboard-header">
+                    <h2>알트코인 시즌 분석</h2>
+                    <p class="last-update">비트코인 대비 알트코인 상대 강도</p>
+                </div>
+
+                <div class="grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">알트코인 시즌 지수</span>
+                            <span class="trend" id="altSeasonTrend">--</span>
+                        </div>
+                        <div class="card-value" id="altSeasonIndex" style="color: var(--accent-purple)">--</div>
+                        <div class="card-subtitle" id="altSeasonSubtitle">분석 중...</div>
+                        <div class="gauge-container">
+                            <svg viewBox="0 0 200 140" width="100%" height="100%">
+                                <defs>
+                                    <linearGradient id="altGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stop-color="#3b82f6" />
+                                        <stop offset="50%" stop-color="#a855f7" />
+                                        <stop offset="100%" stop-color="#22c55e" />
+                                    </linearGradient>
+                                </defs>
+                                <path d="M 20 120 A 80 80 0 0 1 180 120" class="gauge-bg" />
+                                <path id="altGauge" d="M 20 120 A 80 80 0 0 1 180 120" class="gauge-fill" stroke="url(#altGradient)" stroke-dasharray="0 251" />
+                                <text x="100" y="105" class="gauge-text" id="altGaugeText" fill="var(--accent-purple)">--</text>
+                                <text x="100" y="125" class="gauge-label" id="altGaugeLabel">분석 중</text>
+                            </svg>
+                        </div>
+                        <div class="season-indicator">
+                            <div class="season-item" id="seasonBtc">비트코인<br>시즌</div>
+                            <div class="season-item" id="seasonNeutral">중립</div>
+                            <div class="season-item" id="seasonAlt">알트코인<br>시즌</div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">ETH/BTC 비율</span>
+                            <span class="trend" id="ethBtcTrend">--</span>
+                        </div>
+                        <div class="card-value" id="ethBtcRatio" style="color: var(--accent-green)">--</div>
+                        <div class="card-subtitle" id="ethBtcSubtitle">분석 중...</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="ethBtcBar" style="width: 0%; background: linear-gradient(90deg, #627eea, #8b9ef5)"></div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">TOTAL3 (알트 시총)</span>
+                            <span class="trend" id="total3Trend">--</span>
+                        </div>
+                        <div class="card-value" id="total3" style="color: var(--accent-green)">--</div>
+                        <div class="card-subtitle">BTC·ETH 제외 알트코인 시총</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="total3Bar" style="width: 0%; background: linear-gradient(90deg, #22c55e, #4ade80)"></div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">알트코인 거래량 비율</span>
+                            <span class="trend" id="altVolTrend">--</span>
+                        </div>
+                        <div class="card-value" id="altVolRatio" style="color: var(--accent-orange)">--</div>
+                        <div class="card-subtitle">전체 거래량 대비 알트 비중</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="altVolBar" style="width: 0%; background: linear-gradient(90deg, #f97316, #fb923c)"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert-section">
+                    <div class="alert-title">📈 알트코인 시즌 인사이트</div>
+                    <div class="alert-list" id="alt-insights">
+                        <!-- Insights dynamically populated -->
                     </div>
                 </div>
             </div>
@@ -170,45 +277,53 @@
             <!-- INDICATORS TAB -->
             <div id="indicators" class="tab-panel">
                 <div class="indicators-header">
-                    <h2>상세 지표</h2>
+                    <h2>온체인 & 기술적 지표</h2>
                     <div class="category-filter">
                         <button class="cat-btn active" data-cat="all">전체</button>
-                        <button class="cat-btn" data-cat="sentiment">심리</button>
                         <button class="cat-btn" data-cat="onchain">온체인</button>
-                        <button class="cat-btn" data-cat="derivatives">파생</button>
-                        <button class="cat-btn" data-cat="institutional">기관</button>
+                        <button class="cat-btn" data-cat="technical">기술적</button>
+                        <button class="cat-btn" data-cat="sentiment">심리</button>
                     </div>
                 </div>
                 <div class="indicators-list" id="indicators-list">
-                    <!-- Dynamically populated -->
+                    <!-- Indicators dynamically populated -->
                 </div>
             </div>
 
-            <!-- SIGNALS TAB -->
-            <div id="signals" class="tab-panel">
-                <div class="signals-header">
-                    <h2>AI 종합 신호</h2>
-                    <p>다중 지표 일치도 기반 신호</p>
+            <!-- HEATMAP TAB -->
+            <div id="heatmap" class="tab-panel">
+                <div class="dashboard-header">
+                    <h2>알트코인 24시간 변동률 히트맵</h2>
+                    <p class="last-update">색상이 진할수록 변동률이 큽니다</p>
                 </div>
-                <div class="ai-signals-list" id="ai-signals-list">
-                    <!-- Dynamically populated -->
+                <div class="card">
+                    <div class="heatmap" id="heatmap-grid"></div>
                 </div>
-                <div class="signal-history">
-                    <h3>과거 신호 기록</h3>
-                    <div class="history-list" id="history-list">
-                        <!-- Dynamically populated -->
+                <div class="heatmap-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #16a34a"></div>
+                        <span>+15% 이상</span>
                     </div>
-                </div>
-            </div>
-
-            <!-- ALERTS TAB -->
-            <div id="alerts" class="tab-panel">
-                <div class="alerts-header">
-                    <h2>알림 설정</h2>
-                    <p>원하는 조건이 충족되면 알려드립니다</p>
-                </div>
-                <div class="alerts-config" id="alerts-config">
-                    <!-- Dynamically populated -->
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #22c55e"></div>
+                        <span>+5~15%</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #86efac"></div>
+                        <span>0~5%</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #fca5a5"></div>
+                        <span>-5~0%</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #ef4444"></div>
+                        <span>-5~-15%</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #dc2626"></div>
+                        <span>-15% 이하</span>
+                    </div>
                 </div>
             </div>
 
@@ -229,7 +344,7 @@
                     </div>
                 </div>
                 <div class="portfolio-assets" id="portfolio-assets">
-                    <!-- Dynamically populated -->
+                    <!-- Assets dynamically populated -->
                 </div>
                 <div class="portfolio-recommendation" id="portfolio-recommendation">
                     <h3>💡 리밸런싱 제안</h3>
@@ -237,54 +352,6 @@
                 </div>
             </div>
         </main>
-    </div>
-
-    <!-- Settings Modal -->
-    <div id="settings-modal" class="modal hidden">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>⚙️ 설정</h2>
-                <button class="modal-close">✕</button>
-            </div>
-            <div class="modal-body">
-                <div class="setting-item">
-                    <span>다크 모드</span>
-                    <label class="toggle">
-                        <input type="checkbox" id="dark-mode-toggle" checked>
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
-                <div class="setting-item">
-                    <span>알림 활성화</span>
-                    <label class="toggle">
-                        <input type="checkbox" id="notifications-toggle">
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
-                <div class="setting-item">
-                    <span>자동 새로고침</span>
-                    <select id="refresh-interval">
-                        <option value="30">30초</option>
-                        <option value="60" selected>1분</option>
-                        <option value="300">5분</option>
-                        <option value="600">10분</option>
-                    </select>
-                </div>
-                <div class="setting-item">
-                    <span>통화 단위</span>
-                    <select id="currency-unit">
-                        <option value="USD" selected>USD ($)</option>
-                        <option value="KRW">KRW (₩)</option>
-                    </select>
-                </div>
-                <div class="setting-item">
-                    <button class="btn-secondary" id="clear-data-btn">🗑️ 모든 데이터 초기화</button>
-                </div>
-                <div class="setting-item">
-                    <button class="btn-secondary" id="export-data-btn">📤 데이터 낸스</button>
-                </div>
-            </div>
-        </div>
     </div>
 
     <!-- Add Asset Modal -->
@@ -328,16 +395,11 @@
 
     <script src="./js/app.js"></script>
     <script>
-        // Register Service Worker for PWA - iOS compatible
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
                 navigator.serviceWorker.register('./sw.js', { scope: './' })
-                    .then(function(reg) {
-                        console.log('Service Worker registered:', reg.scope);
-                    })
-                    .catch(function(err) {
-                        console.log('Service Worker registration failed:', err);
-                    });
+                    .then(function(reg) { console.log('SW registered:', reg.scope); })
+                    .catch(function(err) { console.log('SW registration failed:', err); });
             });
         }
     </script>
